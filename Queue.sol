@@ -1,16 +1,14 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.17;
+
+import './MultisigWallet.sol';
 
 contract Queue {
 
     uint private back;
 
-    struct Transaction {
-        address sender;
-        address recipient;
-        uint256 value;
-    }
+    MultisigWallet.Transact[] private txs;
 
-    Transaction[] private txs;
+    MultisigWallet.Transact ts;
 
     function Queue() {
         back = 0;
@@ -20,15 +18,15 @@ contract Queue {
         return txs.length;
     }
 
-    function enqueue(Transaction tx) {
-        txs[back] = tx;
+    function enqueue(address sender, address receipient, uint value) {
+        txs[back] = MultisigWallet.Transact(sender, receipient, value);
         back++;
     }
 
-    function dequeue() returns (Transaction) {
-        Transaction tx = txs[0];
+    function dequeue() returns (MultisigWallet.Transact) {
+        ts = txs[0];
         txs[0] = txs[back]; back--;
-        return tx;
+        return ts;
     }
 
 }

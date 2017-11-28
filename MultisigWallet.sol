@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.17;
 
 import "./Queue.sol";
 
@@ -16,12 +16,19 @@ contract MultisigWallet {
     mapping (address => uint) balance;
     mapping (uint    => uint) buckets;
 
+    struct Transact {
+        address sender;
+        address recipient;
+        uint256 value;
+    }
+
+    Transact ts;
 
     function Multisig(address[] _owners, uint[] _weights) {
         require(_owners.length == _weights.length);
 
         owners = _owners;
-        setWeights(weights);
+        setWeights(_weights);
 
         pendingTX = new Queue();
     }
@@ -50,14 +57,13 @@ contract MultisigWallet {
 
     function setDefaultBuckets() private {
         bucketMins = [1, 5, 10, 25, 50, 100];
-        for (uint i = 0; i < bucketMins; i += 1) {
+        for (uint i = 0; i < bucketMins.length; i += 1) {
             buckets[i] = (bucketMins[i] / 100) * totalWeights;
         }
     }
 
     function request(uint256 _value, address _recipient) {
-        Transaction tx = Transaction(msg.sender, _recipient, _value);
-        pendingTX.enqueue(tx);
+        pendingTX.enqueue(msg.sender, _recipient, _value);
     }
 
     function request(uint256 _value) {
