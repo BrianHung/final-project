@@ -15,8 +15,8 @@ contract Wallet {
     event Error(string error);
 
     modifier OwnerOnly() {
-	    if (msg.sender == owner)
-	        _;
+	    require (msg.sender == owner)
+	    _;
 	}
 
     function Wallet() public {
