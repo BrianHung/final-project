@@ -20,7 +20,7 @@ a voting weight from a predefined bucket.
 Frontend Integration: instead of requiring users to direct themselves to an IPFS gateway to view transactions,
 or directly deal with the Ethereum contract, users should be able to use login with a pre-existing supported account
 maintained by a 3rd party (e.g. Google, Facebook, Github) and view and commit transactions.
--
+
 Experimentation with Tether: USDT, maintained by Bitfinex, is a cryptocurrency which is tethered 1:1 with
 the USD. Instead of riding the waves of Ether, it is possible to stabilize the value of an account?
 
